@@ -5,3 +5,7 @@ export const delegate = (element, event, selector, handler) => {
     }
   });
 };
+
+export const insertHTML = (element, html) => {
+  element.insertAdjacentHTML("afterbegin", html);
+};
