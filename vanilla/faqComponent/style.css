@@ -55,7 +55,6 @@ button {
   transform: rotate(0deg);
   transition: transform 0.3s ease;
 }
-
 .faq-btn {
   width: 100%;
   text-align: left;
