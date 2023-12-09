@@ -1,6 +1,5 @@
 class Timer {
   constructor() {
-    //gather all DOM element
     this.form = document.querySelector('[data-timer="form"]');
     this.inputHours = document.querySelector('[data-timer="input_hours"]');
     this.inputMinutes = document.querySelector('[data-timer="input_minutes"]');
@@ -34,17 +33,11 @@ class Timer {
     this.toggleShowValues(this.inputSeconds, this.showSeconds, seconds);
   }
   countDownTimer(timeMilliseconds) {
-    setInterval(() => {
+    const intervalTimer = setInterval(() => {
       const hours = Math.floor(this.timeMilliseconds / 3600);
       const minutes = Math.floor((this.timeMilliseconds / 60) % 60);
       const seconds = Math.floor(this.timeMilliseconds % 60);
 
-      console.log({
-        hours,
-        minutes,
-        seconds,
-      });
-      console.log(this.timeMilliseconds);
       this.timeMilliseconds = Math.max(this.timeMilliseconds - 1, 0);
     }, 1000);
   }
