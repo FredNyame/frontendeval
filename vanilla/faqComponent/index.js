@@ -2,33 +2,46 @@ import { delegate, insertHTML } from "./helper.js";
 import Store from "./store.js";
 
 class APP {
-  #mainElement;
   constructor(store) {
     this.store = store;
-    this.#mainElement = document.querySelector("#faq");
+    this.mainElement = document.querySelector("#faq");
   }
   init() {
+    document.addEventListener("save", () => this.render());
+    document.addEventListener("toggle", (e) => this.renderToggle(e.detail));
     this.bindFaqEvents();
     this.render();
   }
+  #toggleFAQ({ data: faq, index }) {
+    const faqItem = this.mainElement.querySelector(`[data-faqid="${index}"]`);
+    const faqContent = faqItem.querySelector('[data-faq="content"]');
+    const faqContentHeight = faqContent.scrollHeight;
+
+    if (faq.open) {
+      faqItem.classList.add("open");
+      faqContent.style.maxHeight = `${faqContentHeight}px`;
+      faqContent.style.marginTop = "1rem";
+    } else {
+      faqItem.classList.remove("open");
+      faqContent.style.maxHeight = "0px";
+      faqContent.style.marginTop = "0rem";
+    }
+  }
   faqEvent(event, selector, handler) {
-    delegate(this.#mainElement, event, selector, (e) => {
+    delegate(this.mainElement, event, selector, (e) => {
       const element = e.target.closest("[data-faqid]");
       handler(this.store.get(element.dataset.faqid), element, e);
     });
   }
   bindFaqEvents() {
     this.faqEvent("click", '[data-faq="faq-btn"]', (_, element) => {
-      console.log(element.dataset.faqid);
+      this.store.toggleFAQ(parseInt(element.dataset.faqid));
     });
   }
   buildFaqCard(faq, index) {
     const divElement = document.createElement("div");
     divElement.dataset.faqid = index;
-    const divElementClass = `faq-item${faq.open ? " open" : ""}`
-      .split(" ")
-      .join(",");
-    divElement.classList.add(divElementClass);
+    divElement.classList.add("faq-item");
 
     insertHTML(
       divElement,
@@ -41,12 +54,14 @@ class APP {
   </svg>
     </button>
 
-    <button class="faq-btn" aria-expanded="false" aria-controls="faq${index}" data-faq="faq-btn">
+    <button class="faq-btn" aria-expanded="${
+      faq.open ? true : false
+    }" aria-controls="faq${index}" data-faq="faq-btn">
       ${faq.question}
     </button>
     </div>
 
-    <div class="faq-content">
+    <div class="faq-content" data-faq="content">
       ${faq.answer}
     </div>
     `
@@ -54,8 +69,11 @@ class APP {
 
     return divElement;
   }
+  renderToggle(faqDetail) {
+    this.#toggleFAQ(faqDetail);
+  }
   render() {
-    this.#mainElement.replaceChildren(
+    this.mainElement.replaceChildren(
       ...this.store.all().map((faq, index) => this.buildFaqCard(faq, index))
     );
   }
