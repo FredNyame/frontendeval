@@ -24,7 +24,7 @@ label {
   top: 9999px;
 }
 input {
-  width: 25px;
+  width: 100%;
   padding: 0.25rem 0.5rem;
 }
 button {
@@ -39,13 +39,20 @@ button {
   display: flex;
   position: relative;
   align-items: center;
+  width: 50px;
 }
 .timer-showcase {
   position: absolute;
   left: 0px;
+  width: 25px;
   padding: 0.25rem 0.5rem;
   opacity: 0;
   visibility: hidden;
+}
+.timer-showcase.open {
+  opacity: 1;
+  visibility: visible;
+  z-index: 1;
 }
 .timer-switch-button {
   margin-left: 0.5rem;
