@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Countdown Timer</title>
+    <link href="style.css" rel="stylesheet" />
+  </head>
+  <body>
+    <div class="container">
+      <h1>Countdown timer</h1>
+      <form class="timer-form" data-timer="form">
+        <label for="hours">Set Hours</label>
+        <div class="timer-group">
+          <input
+            type="text"
+            id="hours"
+            placeholder="HH"
+            min="0"
+            max="99"
+            maxlength="2"
+            pattern="[0-9]{2}"
+            autocomplete="off"
+            data-timer="hours"
+            required
+          />
+          <div class="timer-showcase" data-timer="show_hours">HH</div>
+        </div>
+        <span class="separator">:</span>
+        <label for="minutes">Set Minutes</label>
+        <div class="timer-group">
+          <input
+            type="text"
+            id="minutes"
+            placeholder="MM"
+            min="0"
+            max="99"
+            maxlength="2"
+            pattern="[0-9]{2}"
+            autocomplete="off"
+            data-timer="minutes"
+            required
+          />
+          <div class="timer-showcase" data-timer="show_minutes">MM</div>
+        </div>
+        <span class="separator">:</span>
+        <label for="seconds">Set Seconds</label>
+        <div class="timer-group">
+          <input
+            type="text"
+            id="seconds"
+            placeholder="SS"
+            min="0"
+            max="99"
+            maxlength="2"
+            pattern="[0-9]{2}"
+            autocomplete="off"
+            data-timer="seconds"
+            required
+          />
+          <div class="timer-showcase" data-timer="show_seconds">SS</div>
+        </div>
+        <div class="timer-switch-button" data-time="btn_switch">
+          <button type="submit" data-timer="btn_start">Start</button>
+          <button data-timer="btn_pause">Pause</button>
+          <button class="btn-reset" data-timer="btn_reset">Reset</button>
+        </div>
+      </form>
+    </div>
+    <script type="module" src="index.js"></script>
+  </body>
+</html>
