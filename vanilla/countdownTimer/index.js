@@ -24,30 +24,28 @@ class Timer {
     const seconds = parseInt(
       this.inputSeconds.value.length > 0 ? this.inputSeconds.value : '0'
     );
-    this.countDownTimer(hours, minutes, seconds);
+    const timeMilliseconds = seconds + minutes * 60 + hours * 60 * 60;
+    console.log(timeMilliseconds);
+    this.timeMilliseconds = timeMilliseconds;
+    this.countDownTimer(this.timeMilliseconds);
 
     this.toggleShowValues(this.inputHours, this.showHours, hours);
     this.toggleShowValues(this.inputMinutes, this.showMinutes, minutes);
     this.toggleShowValues(this.inputSeconds, this.showSeconds, seconds);
   }
-  countDownTimer(hours, minutes, seconds) {
-    const userDate = new Date();
-    userDate.setHours(hours);
-    userDate.setMinutes(minutes);
-    userDate.setSeconds(seconds);
+  countDownTimer(timeMilliseconds) {
     setInterval(() => {
-      const now = new Date().getTime();
-      const distance = userDate - now;
-
-      const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-      const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-      const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+      const hours = Math.floor(this.timeMilliseconds / 3600);
+      const minutes = Math.floor((this.timeMilliseconds / 60) % 60);
+      const seconds = Math.floor(this.timeMilliseconds % 60);
 
       console.log({
         hours,
         minutes,
         seconds,
       });
+      console.log(this.timeMilliseconds);
+      this.timeMilliseconds = Math.max(this.timeMilliseconds - 1, 0);
     }, 1000);
   }
   toggleShowValues(input, showcase, value) {
