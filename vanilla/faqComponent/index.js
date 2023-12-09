@@ -81,4 +81,4 @@ class APP {
 
 const store = new Store();
 const app = new APP(store);
-app.init();
+document.addEventListener('DOMContentLoaded', (_) => app.init());
