@@ -23,26 +23,30 @@ class Timer {
     const seconds = parseInt(
       this.inputSeconds.value.length > 0 ? this.inputSeconds.value : '0'
     );
-    const timeMilliseconds = seconds + minutes * 60 + hours * 60 * 60;
-    console.log(timeMilliseconds);
-    this.timeMilliseconds = timeMilliseconds;
-    this.countDownTimer(this.timeMilliseconds);
 
-    this.toggleShowValues(this.inputHours, this.showHours, hours);
-    this.toggleShowValues(this.inputMinutes, this.showMinutes, minutes);
-    this.toggleShowValues(this.inputSeconds, this.showSeconds, seconds);
+    this.timeMilliseconds = seconds + minutes * 60 + hours * 60 * 60;
+    this.countDownTimer();
   }
-  countDownTimer(timeMilliseconds) {
+  countDownTimer() {
     const intervalTimer = setInterval(() => {
       const hours = Math.floor(this.timeMilliseconds / 3600);
       const minutes = Math.floor((this.timeMilliseconds / 60) % 60);
       const seconds = Math.floor(this.timeMilliseconds % 60);
 
+      this.toggleShowValues(this.inputHours, this.showHours, hours);
+      this.toggleShowValues(this.inputMinutes, this.showMinutes, minutes);
+      this.toggleShowValues(this.inputSeconds, this.showSeconds, seconds);
+
+      if (this.timeMilliseconds === 0) {
+        alert('Countdown timer is complete');
+        clearInterval(intervalTimer);
+      }
+
       this.timeMilliseconds = Math.max(this.timeMilliseconds - 1, 0);
     }, 1000);
   }
   toggleShowValues(input, showcase, value) {
-    showcase.textContent = value.length > 0 ? value : '00';
+    showcase.textContent = value ? value.toString().padStart(2, '0') : '00';
     showcase.classList.add('open');
     input.style.display = 'none';
   }
