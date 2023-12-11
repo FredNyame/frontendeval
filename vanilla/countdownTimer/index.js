@@ -57,7 +57,7 @@ class Timer {
   }
   stopCountdownTimer() {
     if (Notification.permission === 'granted') {
-      createNotification(taskTitle);
+      this.createNotification();
     } else {
       alert('Countdown timer is complete');
     }
