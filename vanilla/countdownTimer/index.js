@@ -10,6 +10,16 @@ class Timer {
     this.showSeconds = document.querySelector('[data-timer="show_seconds"]');
   }
   init() {
+    //check user notification permission
+    if (!('Notification' in window)) {
+      console.log('This browser does not support notifications.');
+    } else {
+      if (Notification.permission !== 'denied') {
+        Notification.requestPermission().then((permission) => {
+          console.log(permission);
+        });
+      }
+    }
     this.form.addEventListener('submit', (e) => this.onSubmit(e));
   }
   onSubmit(event) {
@@ -38,12 +48,34 @@ class Timer {
       this.toggleShowValues(this.inputSeconds, this.showSeconds, seconds);
 
       if (this.timeMilliseconds === 0) {
-        alert('Countdown timer is complete');
+        this.stopCountdownTimer();
         clearInterval(intervalTimer);
       }
 
       this.timeMilliseconds = Math.max(this.timeMilliseconds - 1, 0);
     }, 1000);
+  }
+  stopCountdownTimer() {
+    if (Notification.permission === 'granted') {
+      createNotification(taskTitle);
+    } else {
+      alert('Countdown timer is complete');
+    }
+  }
+  createNotification(title = 'notified') {
+    // Create and show the notification
+    const img = '/to-do-notifications/img/icon-128.png';
+    const text = `HEY! Your task "${title}" is now overdue.`;
+    const notification = new Notification('To do list', { body: text, icon: img });
+  }
+  checkNotificationPromise() {
+    try {
+      Notification.requestPermission().then();
+    } catch (e) {
+      return false;
+    }
+
+    return true;
   }
   toggleShowValues(input, showcase, value) {
     showcase.textContent = value ? value.toString().padStart(2, '0') : '00';
